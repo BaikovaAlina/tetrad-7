@@ -89,5 +89,14 @@
     "repository": "https://github.com/BaikovaAlina/tetrad-7",
     "workflowConclusion": "success",
     "deployedCommit": "3e753ec2af692077263d04e9194e819370e02e0a"
+  },
+  "githubPages": {
+    "status": "published",
+    "workflowConclusion": "success",
+    "url": "https://baikovaalina.github.io/tetrad-7/",
+    "complexUrl": "https://baikovaalina.github.io/tetrad-7/#/challenge",
+    "deployedCommit": "deaf65b3b3eee7b95ae5356d3c7788769ce47e3b",
+    "workflow": "https://github.com/BaikovaAlina/tetrad-7/actions/runs/44369893399",
+    "liveCheck": "published-check.json"
   }
 }
