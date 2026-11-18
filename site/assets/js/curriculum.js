@@ -1,3 +1,4 @@
+import { complexModules, complexLessons } from './curriculum-complex.js';
 /* Авторская методическая карта. Нумерация уроков — навигация, не сетка часов.
    core = базовое ядро ФРП; advanced = углублённая ФРП; extension = дополнение/опережение.
    Сопоставление с УМК — по тематике, не воспроизведение упражнений учебников. */
@@ -45,7 +46,11 @@ export const subjects = {
 };
 export const levels = {
   core: { title: 'Базовый', mark: 'Б', note: 'Базовое ядро ФРП 7 класса' },
-  advanced: { title: 'Углублённый', mark: 'У', note: 'Дополнение углублённой ФРП 7 класса' },
+  advanced: {
+    title: 'Углублённый',
+    mark: 'У',
+    note: 'Углублённая тема или сложная авторская практика по освоенному материалу 7 класса',
+  },
   extension: {
     title: 'Дополнительно',
     mark: '+',
@@ -174,6 +179,7 @@ export const modules = [
     'От таблиц и средних значений — к вероятности и графам.',
     'chart'
   ),
+  ...complexModules,
 ];
 const lessonsList = [];
 function L(id, module, title, description, level, formula, rules, example, pitfall, tags = []) {
@@ -1877,6 +1883,7 @@ L(
   'Не включай правую границу полуинтервала и не путай абсолютную частоту с долей.',
   ['группировка', 'гистограмма', 'интервал', 'частота']
 );
+lessonsList.push(...complexLessons);
 export const lessons = lessonsList.map((l, index) => Object.freeze({ ...l, number: index + 1 }));
 export const getLesson = (id) => lessons.find((l) => l.id === id);
 export const getModule = (id) => modules.find((m) => m.id === id);

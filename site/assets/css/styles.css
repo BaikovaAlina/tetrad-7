@@ -5361,3 +5361,101 @@ b {
     min-height: 44px;
   }
 }
+
+/* Сложная практика: отдельный вход без смешения с базовой программой. */
+.challenge-banner {
+  margin: 24px 0 34px;
+  padding: 26px 30px;
+  border: 1px solid #d6d1bc;
+  border-radius: 20px;
+  background: linear-gradient(120deg, #f4f1e5, #edf1e9);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.challenge-banner .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #7e673a;
+}
+.challenge-banner h2 {
+  font-size: clamp(21px, 2.3vw, 29px);
+  margin: 10px 0;
+}
+.challenge-banner p {
+  margin: 0;
+  color: #58665b;
+  max-width: 650px;
+  line-height: 1.7;
+}
+.challenge-banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.module-card.is-challenge {
+  border-color: #cec3a7;
+}
+.module-card.is-challenge .module-kicker {
+  color: #856b3e;
+}
+.challenge-badge {
+  background: #f3ecd8;
+  color: #735d2e;
+}
+.challenge-notice {
+  background: #f6f2e8;
+  border-color: #e2d7bc;
+}
+.complex-task-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #806137;
+  margin-bottom: 17px;
+}
+.complex-task-label span {
+  width: 100%;
+  font-weight: 400;
+  color: #728173;
+  line-height: 1.7;
+}
+.solution-steps {
+  padding-left: 23px;
+  line-height: 1.85;
+}
+.solution-steps li + li {
+  margin-top: 9px;
+}
+.solution-steps li {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .challenge-banner {
+    padding: 22px 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  .challenge-banner-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .challenge-banner-actions .btn-primary {
+    flex: 1;
+  }
+  .challenge-banner p {
+    font-size: 13px;
+  }
+}
+@media print {
+  .challenge-banner {
+    display: none;
+  }
+}

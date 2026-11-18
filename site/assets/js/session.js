@@ -120,6 +120,7 @@ export function makeReport(session) {
           .replace(/&gt;/g, '>'),
         type: q.type,
         ...(q.steps ? { steps: [...q.steps] } : {}),
+        ...(q.solutionSteps ? { solutionSteps: [...q.solutionSteps], skills: [...q.skills] } : {}),
         studentAnswer:
           typeof a.firstCorrect === 'boolean' ? answerForDisplay(q, a.firstInput) : 'Нет ответа',
         expectedAnswer: displayAnswer(q),
@@ -145,5 +146,5 @@ export function formatTime(seconds = 0) {
   return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 }
 export function reportAsText(report) {
-  return `${report.workTitle} · ${report.lessonTitle}\nУченик: ${report.student.name}${report.student.className ? ` (${report.student.className})` : ''}\nВариант: ${report.variant}\nРезультат: ${report.correct}/${report.total} (${report.percent.toFixed(1)}%)\nОценка: ${report.grade}\nВремя активной работы: ${formatTime(report.durationSeconds)}\nПороги 5/4/3: ${report.grading.five}/${report.grading.four}/${report.grading.three}%\nID: ${report.id}\n\n${report.answers.map((a, i) => `${i + 1}. ${a.prompt}${a.steps ? `\nШаги (исходная нумерация):\n${a.steps.map((step, j) => `${j + 1}) ${step}`).join('\n')}` : ''}\nОтвет: ${a.studentAnswer}\nВерно: ${a.expectedAnswer} · ${a.correct ? 'зачтено' : a.unanswered ? 'без ответа' : 'ошибка'}${a.corrected ? ' · исправлено после первой попытки' : ''}${a.manualComment ? `\nОбоснование (проверяет учитель): ${a.manualComment}` : ''}`).join('\n\n')}\n\nКлиентский учебный отчёт: имя и баллы не заверены сервером.\n`;
+  return `${report.workTitle} · ${report.lessonTitle}\nУченик: ${report.student.name}${report.student.className ? ` (${report.student.className})` : ''}\nВариант: ${report.variant}\nРезультат: ${report.correct}/${report.total} (${report.percent.toFixed(1)}%)\nОценка: ${report.grade}\nВремя активной работы: ${formatTime(report.durationSeconds)}\nПороги 5/4/3: ${report.grading.five}/${report.grading.four}/${report.grading.three}%\nID: ${report.id}\n\n${report.answers.map((a, i) => `${i + 1}. ${a.prompt}${a.steps ? `\nШаги (исходная нумерация):\n${a.steps.map((step, j) => `${j + 1}) ${step}`).join('\n')}` : ''}\nОтвет: ${a.studentAnswer}\nВерно: ${a.expectedAnswer} · ${a.correct ? 'зачтено' : a.unanswered ? 'без ответа' : 'ошибка'}${a.corrected ? ' · исправлено после первой попытки' : ''}${a.solutionSteps ? `\nРазбор по шагам:\n${a.solutionSteps.map((step, j) => `${j + 1}) ${step}`).join('\n')}` : ''}${a.manualComment ? `\nОбоснование (проверяет учитель): ${a.manualComment}` : ''}`).join('\n\n')}\n\nКлиентский учебный отчёт: имя и баллы не заверены сервером.\n`;
 }

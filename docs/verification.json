@@ -1,28 +1,32 @@
 {
   "date": "2026-11-18",
-  "projectVersion": "1.0.0",
+  "projectVersion": "1.1.0",
   "unitIntegration": {
-    "passed": 38,
+    "passed": 43,
     "failed": 0
   },
   "bank": {
-    "lessons": 104,
-    "modules": 15,
-    "variants": 4992,
+    "lessons": 128,
+    "modules": 18,
+    "variants": 6144,
     "coreLessons": 83,
-    "advancedLessons": 15,
-    "extensionLessons": 6,
-    "canonicalAnswersPassed": 4992
+    "advancedLessons": 36,
+    "extensionLessons": 9,
+    "canonicalAnswersPassed": 6144,
+    "complexLessons": 24,
+    "complexVariants": 1152
   },
   "browser": {
-    "passed": 9,
+    "passed": 11,
     "scenarios": [
-      "Каталог в подкаталоге Pages: 15 модулей, фильтры, поиск и память фильтров",
+      "Каталог в подкаталоге Pages: 18 модулей, фильтры, поиск и память фильтров",
       "Имя через диалог, первая ошибка, неверный формат и исправление",
       "Черновик и текущий номер сохраняются после перезагрузки",
       "Завершение с пропусками, отчёт, предпросмотр, экспорт и Telegram off",
       "Выбор, выражение, координаты, доказательство-последовательность и текст учителю",
-      "Все 104 страницы уроков и основные разделы открываются без ошибок",
+      "Комплексная практика: отдельный вход, 24 темы и пошаговые разборы",
+      "Комплексные условия и разборы читаются на телефоне 390/320",
+      "Все 128 страниц уроков и основные разделы открываются без ошибок",
       "Мобильная версия 390 и 320: меню, тренажёр, результат и программа без горизонтального скролла",
       "Повреждённое и заблокированное хранилище: понятный безопасный fallback",
       "Клиентский proxy: согласие, один fetch, подтверждение и защита от повторного клика"
@@ -30,7 +34,7 @@
     "consoleErrors": []
   },
   "independentMath": {
-    "symbolic_from_prompts": 832,
+    "symbolic_from_prompts": 880,
     "numeric_from_prompts": 96,
     "linear_equations": 96,
     "independent_geometry_statistics": 992,
@@ -44,7 +48,24 @@
     "Экспертная рецензия всех доказательств",
     "Реальные устройства iOS/Android, Safari/Firefox"
   ],
-  "githubPages": {
+  "independentComplex": {
+    "complex_tasks": 1152,
+    "mathematical_models_passed": 1104,
+    "proof_structures_only": 48,
+    "geometric_length_configurations_verified": 80,
+    "kinds": {
+      "roots": 144,
+      "identity": 48,
+      "domain-report": 48,
+      "parameter": 48,
+      "integer-report": 48,
+      "system-report": 720,
+      "triangle-integers": 48,
+      "proof": 48
+    },
+    "errors": 0
+  },
+  "initialGitHubPagesPublication": {
     "url": "https://baikovaalina.github.io/tetrad-7/",
     "httpStatus": 200,
     "title": "Математика по полочкам · Тетрадь 7",

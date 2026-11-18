@@ -1,7 +1,8 @@
-import { lessons, getLesson } from './curriculum.js';
+import { lessons, modules, getLesson } from './curriculum.js';
 import { algebraTask } from './bank-algebra.js';
 import { geometryTask } from './bank-geometry.js';
 import { statisticsTask } from './bank-statistics.js';
+import { complexTask } from './bank-complex.js';
 import { shuffle } from './bank-utils.js';
 export const VARIANTS_PER_LESSON = 48;
 export const WORK_SIZES = { classwork: 8, homework: 8, practice: 12 };
@@ -15,8 +16,9 @@ export function getBank(lessonId) {
   if (cache.has(lessonId)) return cache.get(lessonId);
   const lesson = getLesson(lessonId);
   if (!lesson) throw new Error('Урок не найден.');
-  const factory =
-    lesson.subject === 'algebra'
+  const factory = lesson.challenge
+    ? complexTask
+    : lesson.subject === 'algebra'
       ? algebraTask
       : lesson.subject === 'geometry'
         ? geometryTask
@@ -59,5 +61,7 @@ export function getTask(id) {
 export const bankSummary = {
   lessons: lessons.length,
   variants: lessons.length * VARIANTS_PER_LESSON,
-  modules: 15,
+  modules: modules.length,
+  complexLessons: lessons.filter((l) => l.challenge).length,
+  complexVariants: lessons.filter((l) => l.challenge).length * VARIANTS_PER_LESSON,
 };

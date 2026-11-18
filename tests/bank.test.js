@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   lessons,
   modules,
@@ -16,10 +17,14 @@ import {
   displayAnswer,
 } from '../site/assets/js/checker.js';
 import { renderDiagram } from '../site/assets/js/diagrams.js';
-test('104 урока: полная связность методической карты и памятка к каждой теме', () => {
-  assert.equal(lessons.length, 104);
-  assert.equal(modules.length, 15);
-  assert.equal(bankSummary.variants, 4992);
+test('128 уроков: полная связность методической карты и памятка к каждой теме', () => {
+  assert.equal(lessons.length, 128);
+  assert.equal(modules.length, 18);
+  assert.equal(bankSummary.variants, 6144);
+  const shell = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
+  assert.ok(shell.includes(`${lessons.length} тем`));
+  assert.ok(shell.includes(String(bankSummary.variants)));
+
   assert.equal(new Set(lessons.map((l) => l.id)).size, lessons.length);
   for (const l of lessons) {
     assert.ok(getModule(l.module));
@@ -36,7 +41,7 @@ test('104 урока: полная связность методической �
   assert.equal(getLesson('s10').level, 'advanced');
   assert.equal(workPath('g01', 'homework', '5'), '#/train/g01?work=homework&variant=5');
 });
-test('Все 4992 канонических ответа и объявленные альтернативы проходят проверку', () => {
+test('Все 6144 канонических ответа и объявленные альтернативы проходят проверку', () => {
   const types = new Set();
   let count = 0;
   for (const l of lessons) {
@@ -78,7 +83,7 @@ test('Все 4992 канонических ответа и объявленны�
     }
     assert.equal(signatures.size, 48, `Не 48 разных полных заданий в ${l.id}`);
   }
-  assert.equal(count, 4992);
+  assert.equal(count, 6144);
   assert.equal(types.size, 8);
 });
 test('КР и ДЗ детерминированы и не пересекаются внутри каждого варианта', () => {

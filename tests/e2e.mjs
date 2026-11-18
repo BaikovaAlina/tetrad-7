@@ -88,16 +88,16 @@ try {
     if (!r.url().startsWith(base)) externalRequests++;
   });
   await scenario(
-    'Каталог в подкаталоге Pages: 15 модулей, фильтры, поиск и память фильтров',
+    'Каталог в подкаталоге Pages: 18 модулей, фильтры, поиск и память фильтров',
     async () => {
       await goto(page);
-      assert.equal(await page.locator('.module-card').count(), 15);
+      assert.equal(await page.locator('.module-card').count(), 18);
       await noOverflow(page);
       await page.screenshot({ path: path.join(artifact, 'catalog-desktop.png'), fullPage: false });
       await page.locator('[data-subject="geometry"][data-action="filter-subject"]').click();
-      assert.equal(await page.locator('.module-card').count(), 6);
+      assert.equal(await page.locator('.module-card').count(), 7);
       await page.locator('#level-filter').selectOption('advanced');
-      assert.equal(await page.locator('.module-card').count(), 1);
+      assert.equal(await page.locator('.module-card').count(), 2);
       await page.locator('#catalog-search').fill('геометрических мест');
       assert.equal(await page.locator('.lesson-title-link').count(), 1);
       assert.match(await page.locator('.lesson-title-link').innerText(), /Метод геометрических/);
@@ -106,8 +106,8 @@ try {
       assert.equal(await page.locator('#catalog-search').inputValue(), 'геометрических мест');
       await page.locator('#catalog-search').fill('невозможныйпоиск');
       assert.match(await page.locator('#catalog-results').innerText(), /ничего не нашлось/);
-      await page.locator('[data-action="reset-filters"]').click();
-      assert.equal(await page.locator('.module-card').count(), 15);
+      await page.locator('#catalog-results [data-action="reset-filters"]').click();
+      assert.equal(await page.locator('.module-card').count(), 18);
     }
   );
   await scenario('Имя через диалог, первая ошибка, неверный формат и исправление', async () => {
@@ -201,7 +201,66 @@ try {
       }
     }
   );
-  await scenario('Все 104 страницы уроков и основные разделы открываются без ошибок', async () => {
+  await scenario('Комплексная практика: отдельный вход, 24 темы и пошаговые разборы', async () => {
+    await goto(page, 'challenge');
+    assert.equal(await page.locator('.module-card').count(), 3);
+    assert.equal(await page.locator('.lesson-title-link').count(), 24);
+    assert.equal(await page.locator('.is-challenge').count(), 3);
+    await page.screenshot({ path: path.join(artifact, 'complex-catalog.png'), fullPage: false });
+    for (const lesson of lessons.filter((l) => l.challenge)) {
+      await goto(page, `train/${lesson.id}?work=practice&variant=complex-browser`);
+      const q = getWork(lesson.id, 'practice', 'complex-browser')[0];
+      assert.equal(await page.locator('.complex-task-label').count(), 1);
+      await submit(page, q, q.answer);
+      assert.equal(
+        await page.locator('#answer-feedback').getAttribute('data-kind'),
+        'correct',
+        q.id
+      );
+      await page.locator('[data-action="solution"]').click();
+      assert.equal(
+        await page.locator('#question-pane .solution-steps li').count(),
+        q.solutionSteps.length
+      );
+      assert.equal(await page.locator('.manual-details').count(), 1);
+    }
+    await goto(page, 'train/a74?work=classwork&variant=complex-full');
+    const work = getWork('a74', 'classwork', 'complex-full');
+    for (let i = 0; i < work.length; i++) {
+      await submit(page, work[i], work[i].answer);
+      if (i < work.length - 1) await page.locator('[data-action="next-question"]').click();
+    }
+    await page.locator('[data-action="finish-work"]').click();
+    await page.waitForURL(/#\/result\//);
+    assert.match(await page.locator('.result-facts').innerText(), /Оценка 5/);
+    assert.equal(await page.locator('.report-task').count(), 8);
+    assert.equal(await page.locator('.solution-steps').count(), 8);
+    const download = page.waitForEvent('download');
+    await page.locator('[data-action="download-report"][data-format="txt"]').click();
+    const downloaded = await download;
+    assert.match(await readFile(await downloaded.path(), 'utf8'), /Разбор по шагам/);
+  });
+  await scenario('Комплексные условия и разборы читаются на телефоне 390/320', async () => {
+    for (const width of [390, 320]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const route of [
+        'challenge',
+        'lesson/a61',
+        'train/a59?work=practice&variant=complex-mobile',
+        'train/a70?work=practice&variant=complex-mobile',
+        'train/g43?work=practice&variant=complex-mobile',
+      ]) {
+        await goto(page, route);
+        await noOverflow(page);
+      }
+    }
+    await page.screenshot({ path: path.join(artifact, 'complex-mobile.png'), fullPage: true });
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await goto(page, 'catalog');
+    await page.locator('.challenge-banner [data-action="reset-filters"]').click();
+    assert.equal(await page.locator('.module-card').count(), 18);
+  });
+  await scenario('Все 128 страниц уроков и основные разделы открываются без ошибок', async () => {
     for (const l of lessons) {
       await goto(page, `lesson/${l.id}`);
       assert.equal(await page.locator('h1').innerText(), l.title);
@@ -267,7 +326,7 @@ try {
       const p = await broken.newPage();
       observe(p);
       await goto(p);
-      assert.equal(await p.locator('.module-card').count(), 15);
+      assert.equal(await p.locator('.module-card').count(), 18);
       await broken.close();
       const blocked = await browser.newContext();
       await blocked.addInitScript(() =>
@@ -281,7 +340,7 @@ try {
       observe(p2);
       await goto(p2);
       assert.match(await p2.locator('.notice').innerText(), /не разрешил сохранение/);
-      assert.equal(await p2.locator('.module-card').count(), 15);
+      assert.equal(await p2.locator('.module-card').count(), 18);
       await blocked.close();
     }
   );
