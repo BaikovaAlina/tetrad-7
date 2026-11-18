@@ -1,0 +1,87 @@
+name: Проверить и опубликовать Тетрадь 7
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Учебная логика и браузер
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: npm ci
+      - run: npm run check:secrets
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Отчёт браузерных тестов при ошибке
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failure
+          path: test-results/
+          retention-days: 7
+
+  build:
+    name: Собрать статический сайт
+    if: github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - uses: actions/configure-pages@v5
+      - name: Подставить настройки в публикуемую копию
+        # Секреты не используются в PR. Исходный site/config.js не изменяется.
+        # Direct ПУБЛИКУЕТ токен — включайте только осознанно.
+        env:
+          TELEGRAM_MODE: ${{ vars.TELEGRAM_MODE || 'off' }}
+          ALLOW_UNSAFE_DIRECT: ${{ vars.ALLOW_UNSAFE_DIRECT || 'false' }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_PROXY_URL: ${{ vars.TELEGRAM_PROXY_URL }}
+          TURNSTILE_SITE_KEY: ${{ vars.TURNSTILE_SITE_KEY }}
+        run: python scripts/build.py --output _public
+      - name: Загрузить только статику
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _public
+
+  deploy:
+    name: GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Опубликовать
+        id: deployment
+        uses: actions/deploy-pages@v4

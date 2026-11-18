@@ -1,0 +1,20 @@
+{
+  "name": "tetrad-7",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Бесплатный статический тренажёр по математике 7 класса. Без runtime-зависимостей.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "node tests/e2e.mjs",
+    "check:secrets": "python3 scripts/secret_scan.py",
+    "build": "python3 scripts/build.py",
+    "serve": "python3 -m http.server 3000 --bind 0.0.0.0 --directory site"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,16 @@
+node_modules/
+_public/
+test-results/
+playwright-report/
+__pycache__/
+.venv/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.wrangler/
+*.log
+*.key
+*.pem
+.DS_Store
+Thumbs.db

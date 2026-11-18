@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-18",
+  "projectVersion": "1.0.0",
+  "unitIntegration": {
+    "passed": 38,
+    "failed": 0
+  },
+  "bank": {
+    "lessons": 104,
+    "modules": 15,
+    "variants": 4992,
+    "coreLessons": 83,
+    "advancedLessons": 15,
+    "extensionLessons": 6,
+    "canonicalAnswersPassed": 4992
+  },
+  "browser": {
+    "passed": 9,
+    "scenarios": [
+      "Каталог в подкаталоге Pages: 15 модулей, фильтры, поиск и память фильтров",
+      "Имя через диалог, первая ошибка, неверный формат и исправление",
+      "Черновик и текущий номер сохраняются после перезагрузки",
+      "Завершение с пропусками, отчёт, предпросмотр, экспорт и Telegram off",
+      "Выбор, выражение, координаты, доказательство-последовательность и текст учителю",
+      "Все 104 страницы уроков и основные разделы открываются без ошибок",
+      "Мобильная версия 390 и 320: меню, тренажёр, результат и программа без горизонтального скролла",
+      "Повреждённое и заблокированное хранилище: понятный безопасный fallback",
+      "Клиентский proxy: согласие, один fetch, подтверждение и защита от повторного клика"
+    ],
+    "consoleErrors": []
+  },
+  "independentMath": {
+    "symbolic_from_prompts": 832,
+    "numeric_from_prompts": 96,
+    "linear_equations": 96,
+    "independent_geometry_statistics": 992,
+    "errors": 0
+  },
+  "staticBuild": "passed, Telegram off",
+  "secretScan": "passed; heuristic only",
+  "notPerformed": [
+    "Публикация в GitHub-аккаунт пользователя",
+    "Реальная доставка с пользовательским токеном",
+    "Deploy Worker и реальный Turnstile в аккаунте пользователя",
+    "Экспертная рецензия всех доказательств",
+    "Реальные устройства iOS/Android, Safari/Firefox"
+  ]
+}

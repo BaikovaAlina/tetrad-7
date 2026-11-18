@@ -1,0 +1,19 @@
+name = "tetrad7-telegram"
+main = "index.js"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+# Только origin, без /repo/ и завершающего /. Несколько — через запятую.
+ALLOWED_ORIGINS = "https://YOUR-NAME.github.io"
+REQUIRE_TURNSTILE = "true"
+MAX_REQUESTS_PER_MINUTE = "30"
+
+# Не записывайте ключи сюда. Используйте dashboard → Worker → Settings →
+# Variables and Secrets → Add → Secret или wrangler secret put:
+# TELEGRAM_BOT_TOKEN
+# TELEGRAM_CHAT_ID
+# TURNSTILE_SECRET_KEY
+#
+# Лимит по IP хранится в памяти isolate, поэтому он best effort, не глобальный.
+# Turnstile обязателен по умолчанию. CORS не заменяет авторизацию.
