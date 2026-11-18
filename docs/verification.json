@@ -39,10 +39,34 @@
   "staticBuild": "passed, Telegram off",
   "secretScan": "passed; heuristic only",
   "notPerformed": [
-    "Публикация в GitHub-аккаунт пользователя",
     "Реальная доставка с пользовательским токеном",
     "Deploy Worker и реальный Turnstile в аккаунте пользователя",
     "Экспертная рецензия всех доказательств",
     "Реальные устройства iOS/Android, Safari/Firefox"
-  ]
+  ],
+  "githubPages": {
+    "url": "https://baikovaalina.github.io/tetrad-7/",
+    "httpStatus": 200,
+    "title": "Математика по полочкам · Тетрадь 7",
+    "modules": 15,
+    "lessonsOpened": 104,
+    "liveWork": {
+      "answeredCorrectly": 8,
+      "total": 8,
+      "grade": 5,
+      "persistsAfterReload": true
+    },
+    "mobileWidths": [
+      390,
+      320
+    ],
+    "browserErrors": [],
+    "failedResponses": [],
+    "telegramMode": "off",
+    "workflow": "https://github.com/BaikovaAlina/tetrad-7/actions/runs/44362223283",
+    "checkedAt": "2026-11-18T17:48:43.690Z",
+    "repository": "https://github.com/BaikovaAlina/tetrad-7",
+    "workflowConclusion": "success",
+    "deployedCommit": "3e753ec2af692077263d04e9194e819370e02e0a"
+  }
 }
